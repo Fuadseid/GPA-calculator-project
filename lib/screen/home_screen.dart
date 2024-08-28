@@ -2,6 +2,7 @@ import 'dart:ui';
 
 import 'package:flutter/material.dart';
 import 'package:gpa_calculator/main.dart';
+import 'package:gpa_calculator/screen/gpa_form_screen.dart';
 
 class HomeScreen extends StatefulWidget {
   const HomeScreen({super.key});
@@ -11,10 +12,21 @@ class HomeScreen extends StatefulWidget {
 }
 
 class _HomeScreenState extends State<HomeScreen> {
+  final _numberofCourseController = TextEditingController();
+  @override
+  void dispose() {
+    _numberofCourseController.dispose();
+    super.dispose();
+  }
+
   @override
   Widget build(BuildContext context) {
-    void form() {
+    void _addFormScreen() {
       Navigator.pop(context);
+      Navigator.of(context).push(MaterialPageRoute(
+        builder: (context) =>
+            GpaFormScreen(enterednumber: _numberofCourseController),
+      ));
     }
 
     void bottom_up() {
@@ -30,31 +42,37 @@ class _HomeScreenState extends State<HomeScreen> {
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.center,
                   children: [
-                    const TextField(
-                      decoration: InputDecoration(
-                        labelText: 'Number of course',
+                    Container(
+                      width: 200,
+                      alignment: Alignment.center,
+                      child: TextField(
+                        controller: _numberofCourseController,
+                        keyboardType: TextInputType.number,
+                        decoration: const InputDecoration(
+                          labelText: 'Number of course',
+                        ),
                       ),
                     ),
                     const SizedBox(
                       height: 15,
                     ),
                     ElevatedButton(
-                        onPressed: form,
-                        style: ButtonStyle(
-                          backgroundColor: MaterialStateProperty.all(
-                              Theme.of(context)
+                      onPressed: _addFormScreen,
+                      style: ButtonStyle(
+                        backgroundColor: MaterialStateProperty.all(
+                            Theme.of(context)
+                                .colorScheme
+                                .primaryContainer), // Set background color
+                      ),
+                      child: Text(
+                        'Okay',
+                        style: Theme.of(context).textTheme.titleLarge!.copyWith(
+                              color: Theme.of(context)
                                   .colorScheme
-                                  .primaryContainer), // Set background color
-                        ),
-                        child: Text(
-                          'Okay',
-                          style:
-                              Theme.of(context).textTheme.titleLarge!.copyWith(
-                                    color: Theme.of(context)
-                                        .colorScheme
-                                        .onPrimaryContainer,
-                                  ),
-                        )),
+                                  .onPrimaryContainer,
+                            ),
+                      ),
+                    ),
                   ],
                 ),
               )),
@@ -74,7 +92,8 @@ class _HomeScreenState extends State<HomeScreen> {
           actions: [
             Padding(
                 padding: const EdgeInsets.all(13),
-                child: IconButton(onPressed: () {}, icon: Icon(Icons.sunny))),
+                child: IconButton(
+                    onPressed: () {}, icon: const Icon(Icons.sunny))),
           ],
         ),
         body: Container(
