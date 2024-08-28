@@ -23,15 +23,6 @@ final theme = ThemeData().copyWith(
     ),
   ),
 );
-
-
-
-
-
-
-
-
-
 void main() {
   runApp(const MyApp());
 }
