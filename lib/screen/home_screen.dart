@@ -1,8 +1,4 @@
-import 'dart:ui';
-
 import 'package:flutter/material.dart';
-import 'package:gpa_calculator/main.dart';
-
 class HomeScreen extends StatefulWidget {
   const HomeScreen({super.key});
 
