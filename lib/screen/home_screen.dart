@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:gpa_calculator/screen/gpa_form_screen.dart';
+import 'package:gpa_calculator/widget/drawer.dart';
 import 'package:url_launcher/url_launcher.dart';
 
 class HomeScreen extends StatefulWidget {
@@ -165,6 +166,7 @@ class _HomeScreenState extends State<HomeScreen> {
                     onPressed: () {}, icon: const Icon(Icons.sunny))),
           ],
         ),
+        drawer: Drawers(),
         body: Container(
           child: Column(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
