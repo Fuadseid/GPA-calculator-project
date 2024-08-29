@@ -4,6 +4,7 @@ class Grade {
   static double getGradePoint(String letter) {
     switch (letter.toUpperCase()) {
       case 'A+':
+      return 4.0;
       case 'A':
         return 4.0;
       case 'A-':
