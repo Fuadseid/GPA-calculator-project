@@ -4,18 +4,30 @@ import 'package:gpa_calculator/screen/home_screen.dart';
 class Grade {
   static double getGradePoint(String letter) {
     switch (letter.toUpperCase()) {
-      case 'A+': return 4.0;
-      case 'A': return 4.0;
-      case 'A-': return 3.75;
-      case 'B+': return 3.5;
-      case 'B': return 3.0;
-      case 'B-': return 2.75;
-      case 'C+': return 2.5;
-      case 'C': return 2.0;
-      case 'C-': return 1.5;
-      case 'D': return 1.0;
-      case 'F': return 0.0;
-      default: throw ArgumentError('Invalid grade: $letter');
+      case 'A+':
+        return 4.0;
+      case 'A':
+        return 4.0;
+      case 'A-':
+        return 3.75;
+      case 'B+':
+        return 3.5;
+      case 'B':
+        return 3.0;
+      case 'B-':
+        return 2.75;
+      case 'C+':
+        return 2.5;
+      case 'C':
+        return 2.0;
+      case 'C-':
+        return 1.5;
+      case 'D':
+        return 1.0;
+      case 'F':
+        return 0.0;
+      default:
+        throw ArgumentError('Invalid grade: $letter');
     }
   }
 }
@@ -156,7 +168,17 @@ class _GpaFormScreen extends State<GpaFormScreen> {
                           child: DropdownButton<String>(
                             value: _selectedGrades[index],
                             items: <String>[
-                              'A+', 'A', 'A-', 'B+', 'B', 'B-', 'C+', 'C', 'C-', 'D', 'F'
+                              'A+',
+                              'A',
+                              'A-',
+                              'B+',
+                              'B',
+                              'B-',
+                              'C+',
+                              'C',
+                              'C-',
+                              'D',
+                              'F'
                             ].map<DropdownMenuItem<String>>((String value) {
                               return DropdownMenuItem<String>(
                                 value: value,
@@ -182,6 +204,15 @@ class _GpaFormScreen extends State<GpaFormScreen> {
       );
     }).toList();
 
+    bool _isDarkMode = false;
+
+    // Method to toggle dark mode
+    void onDarkMode() {
+      setState(() {
+        _isDarkMode = !_isDarkMode; // Toggle the value
+      });
+    }
+
     return Scaffold(
       appBar: AppBar(
         title: const Text("Fill out all the spaces"),
@@ -197,7 +228,8 @@ class _GpaFormScreen extends State<GpaFormScreen> {
                 double? gpa = result['gpa'];
                 double? totalCredits = result['totalCredits'];
                 if (gpa == null) {
-                  showErrorDialog("Please fill in all fields correctly before calculating.");
+                  showErrorDialog(
+                      "Please fill in all fields correctly before calculating.");
                 } else {
                   showDialog(
                     context: context,
@@ -215,9 +247,16 @@ class _GpaFormScreen extends State<GpaFormScreen> {
                               ),
                               TextButton(
                                 onPressed: () {
-                                  Navigator.of(context).push(MaterialPageRoute(
-                                    builder: (context) => HomeScreen(gpa: gpa, credits: totalCredits!)
-                                  ));
+                                  Navigator.of(context).push(
+                                    MaterialPageRoute(
+                                      builder: (context) => HomeScreen(
+                                        gpa: gpa,
+                                        credits: totalCredits!,
+                                        isDarkMode: true,
+                                        onDarkMode: onDarkMode,
+                                      ),
+                                    ),
+                                  );
                                 },
                                 child: const Text("OK"),
                               ),
@@ -232,12 +271,14 @@ class _GpaFormScreen extends State<GpaFormScreen> {
               child: Text(
                 'Calculate',
                 style: Theme.of(context).textTheme.titleLarge!.copyWith(
-                  color: Theme.of(context).colorScheme.onSecondary,
-                ),
+                      color: Theme.of(context).colorScheme.onSecondary,
+                    ),
               ),
               style: ButtonStyle(
-                minimumSize: MaterialStateProperty.all(Size(double.infinity, 50)),
-                backgroundColor: MaterialStateProperty.all(Theme.of(context).colorScheme.secondary),
+                minimumSize:
+                    MaterialStateProperty.all(Size(double.infinity, 50)),
+                backgroundColor: MaterialStateProperty.all(
+                    Theme.of(context).colorScheme.secondary),
               ),
             ),
           ),
