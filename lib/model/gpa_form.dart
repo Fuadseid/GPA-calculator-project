@@ -37,12 +37,13 @@ class GpaForm {
     required this.name,
     required this.credit,
     required this.result,
-    
   });
 
   final String name;
   final String credit;
   final String result;
 
-  double get gradePoint => Grade.getGradePoint(result); 
+  double get gradePoint => Grade.getGradePoint(result);
 }
+
+
