@@ -1,10 +1,11 @@
 import 'package:flutter/material.dart';
+import 'package:gpa_calculator/screen/home_screen.dart';
 
 class Grade {
   static double getGradePoint(String letter) {
     switch (letter.toUpperCase()) {
       case 'A+':
-      return 4.0;
+        return 4.0;
       case 'A':
         return 4.0;
       case 'A-':
@@ -65,7 +66,7 @@ class _GpaFormScreen extends State<GpaFormScreen> {
     super.dispose();
   }
 
-  double? calculateGPA() {
+  Map<String, double?> calculateGPA() {
     double totalPoints = 0;
     double totalCredits = 0;
 
@@ -76,7 +77,7 @@ class _GpaFormScreen extends State<GpaFormScreen> {
 
       // Check if any field is empty or invalid
       if (title.isEmpty || credits < 0) {
-        return null; // Indicate that the calculation cannot proceed
+        return {}; // Indicate that the calculation cannot proceed
       }
 
       double gradePoint = Grade.getGradePoint(grade);
@@ -84,7 +85,8 @@ class _GpaFormScreen extends State<GpaFormScreen> {
       totalCredits += credits;
     }
 
-    return totalCredits > 0 ? totalPoints / totalCredits : null;
+    double? gpa = totalCredits > 0 ? totalPoints / totalCredits : null;
+    return {'gpa': gpa, 'totalCredits': totalCredits};
   }
 
   void addCourse() {
@@ -226,9 +228,12 @@ class _GpaFormScreen extends State<GpaFormScreen> {
             padding: const EdgeInsetsDirectional.only(bottom: 8),
             child: ElevatedButton(
               onPressed: () {
-                double? gpa = calculateGPA();
+                Map<String, double?> result = calculateGPA();
+                double? gpa = result['gpa'];
+                double? totalCredits = result['totalCredits'];
                 if (gpa == null) {
-                  showErrorDialog("Please fill in all fields correctly before calculating.");
+                  showErrorDialog(
+                      "Please fill in all fields correctly before calculating.");
                 } else {
                   showDialog(
                     context: context,
@@ -239,14 +244,12 @@ class _GpaFormScreen extends State<GpaFormScreen> {
                         actions: [
                           TextButton(
                             onPressed: () {
-                              Navigator.of(context).pop(
-
-                                
-                              );
+                              Navigator.of(context).push(MaterialPageRoute(
+                                  builder: (context) => HomeScreen(
+                                      gpa: gpa, credits: totalCredits!)));
                             },
                             child: const Text("OK"),
 // so Abdella what we are going to do now is when we press ok this the above it must send the result to the home screen that we provided
-
                           ),
                         ],
                       );
@@ -261,8 +264,8 @@ class _GpaFormScreen extends State<GpaFormScreen> {
                     ),
               ),
               style: ButtonStyle(
-                minimumSize: MaterialStateProperty.all(Size(double.infinity, 50)),
-                backgroundColor: MaterialStateProperty.all(
+                minimumSize: WidgetStateProperty.all(Size(double.infinity, 50)),
+                backgroundColor: WidgetStateProperty.all(
                     Theme.of(context).colorScheme.secondary),
               ),
             ),
