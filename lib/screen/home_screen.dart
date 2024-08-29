@@ -1,9 +1,5 @@
-import 'dart:ui';
-
 import 'package:flutter/material.dart';
-import 'package:gpa_calculator/main.dart';
 import 'package:gpa_calculator/screen/gpa_form_screen.dart';
-
 class HomeScreen extends StatefulWidget {
   const HomeScreen({super.key});
 
@@ -103,6 +99,7 @@ class _HomeScreenState extends State<HomeScreen> {
               Image.asset(
                 'lib/assets/OIP.jpg',
               ),
+              Container(),//this container
               Padding(
                   padding: const EdgeInsets.all(8.0),
                   child: OutlinedButton(
