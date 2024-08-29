@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:gpa_calculator/screen/home_screen.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:gpa_calculator/widget/drawer.dart';
 
 final colorScheme = ColorScheme.fromSeed(
   brightness: Brightness.dark,
@@ -23,24 +24,49 @@ final theme = ThemeData().copyWith(
     ),
   ),
 );
+
 void main() {
-  runApp(const MyApp());
+  runApp(MyApp());
 }
 
-class MyApp extends StatelessWidget {
-  const MyApp({super.key});
+class MyApp extends StatefulWidget {
+  @override
+  _MyAppState createState() => _MyAppState();
+}
 
-  // This widget is the root of your application.
+class _MyAppState extends State<MyApp> {
+  // Declare _isDarkMode as a member variable
+  bool _isDarkMode = false;
+
+  // Method to toggle dark mode
+  void onDarkMode() {
+    setState(() {
+      _isDarkMode = !_isDarkMode; // Toggle the value
+    });
+  }
+
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
+      theme: ThemeData(
+        brightness: Brightness.light,
+        primaryColor: Colors.blue,
+        textTheme: const TextTheme(),
+      ),
+      darkTheme: ThemeData(
+        brightness: Brightness.dark,
+        primaryColor: const Color.fromARGB(255, 12, 12, 13),
+        textTheme: const TextTheme(),
+      ),
+      themeMode: _isDarkMode ? ThemeMode.dark : ThemeMode.light,
       debugShowCheckedModeBanner: false,
       title: 'Flutter Demo',
-      theme: ThemeData(
-        colorScheme: ColorScheme.fromSeed(seedColor: Colors.deepPurple),
-        useMaterial3: true,
+      home: HomeScreen(
+        gpa: 0,
+        credits: 0,
+        onDarkMode: onDarkMode,
+        isDarkMode: _isDarkMode,
       ),
-      home: const HomeScreen(gpa: 0, credits: 0),
     );
   }
 }
