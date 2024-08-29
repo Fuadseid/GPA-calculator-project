@@ -4,56 +4,34 @@ import 'package:gpa_calculator/screen/home_screen.dart';
 class Grade {
   static double getGradePoint(String letter) {
     switch (letter.toUpperCase()) {
-      case 'A+':
-        return 4.0;
-      case 'A':
-        return 4.0;
-      case 'A-':
-        return 3.75;
-      case 'B+':
-        return 3.5;
-      case 'B':
-        return 3.0;
-      case 'B-':
-        return 2.75;
-      case 'C+':
-        return 2.5;
-      case 'C':
-        return 2.0;
-      case 'C-':
-        return 1.5;
-      case 'D':
-        return 1.0;
-      case 'F':
-        return 0.0;
-      default:
-        throw ArgumentError('Invalid grade: $letter');
+      case 'A+': return 4.0;
+      case 'A': return 4.0;
+      case 'A-': return 3.75;
+      case 'B+': return 3.5;
+      case 'B': return 3.0;
+      case 'B-': return 2.75;
+      case 'C+': return 2.5;
+      case 'C': return 2.0;
+      case 'C-': return 1.5;
+      case 'D': return 1.0;
+      case 'F': return 0.0;
+      default: throw ArgumentError('Invalid grade: $letter');
     }
   }
 }
 
 class GpaFormScreen extends StatefulWidget {
-  GpaFormScreen({
-    super.key,
-    required this.enterednumber,
-  });
+  GpaFormScreen({super.key, required this.enterednumber});
   final TextEditingController enterednumber;
 
   @override
-  State<GpaFormScreen> createState() {
-    return _GpaFormScreen();
-  }
+  State<GpaFormScreen> createState() => _GpaFormScreen();
 }
 
 class _GpaFormScreen extends State<GpaFormScreen> {
   final List<TextEditingController> _titleControllers = [];
   final List<TextEditingController> _creditControllers = [];
   final List<String> _selectedGrades = [];
-
-  @override
-  void initState() {
-    super.initState();
-  }
 
   @override
   void dispose() {
@@ -75,7 +53,6 @@ class _GpaFormScreen extends State<GpaFormScreen> {
       double credits = double.tryParse(_creditControllers[i].text.trim()) ?? -1;
       String grade = _selectedGrades[i];
 
-      // Check if any field is empty or invalid
       if (title.isEmpty || credits < 0) {
         return {}; // Indicate that the calculation cannot proceed
       }
@@ -106,9 +83,7 @@ class _GpaFormScreen extends State<GpaFormScreen> {
           content: Text(message),
           actions: [
             TextButton(
-              onPressed: () {
-                Navigator.of(context).pop();
-              },
+              onPressed: () => Navigator.of(context).pop(),
               child: const Text("OK"),
             ),
           ],
@@ -137,7 +112,7 @@ class _GpaFormScreen extends State<GpaFormScreen> {
       TextEditingController creditController = _creditControllers[index];
 
       return Padding(
-        padding: const EdgeInsets.all(2),
+        padding: const EdgeInsets.all(8.0),
         child: SizedBox(
           width: double.infinity,
           height: 90,
@@ -181,17 +156,7 @@ class _GpaFormScreen extends State<GpaFormScreen> {
                           child: DropdownButton<String>(
                             value: _selectedGrades[index],
                             items: <String>[
-                              'A+',
-                              'A',
-                              'A-',
-                              'B+',
-                              'B',
-                              'B-',
-                              'C+',
-                              'C',
-                              'C-',
-                              'D',
-                              'F'
+                              'A+', 'A', 'A-', 'B+', 'B', 'B-', 'C+', 'C', 'C-', 'D', 'F'
                             ].map<DropdownMenuItem<String>>((String value) {
                               return DropdownMenuItem<String>(
                                 value: value,
@@ -232,8 +197,7 @@ class _GpaFormScreen extends State<GpaFormScreen> {
                 double? gpa = result['gpa'];
                 double? totalCredits = result['totalCredits'];
                 if (gpa == null) {
-                  showErrorDialog(
-                      "Please fill in all fields correctly before calculating.");
+                  showErrorDialog("Please fill in all fields correctly before calculating.");
                 } else {
                   showDialog(
                     context: context,
@@ -242,15 +206,23 @@ class _GpaFormScreen extends State<GpaFormScreen> {
                         title: const Text("Calculated GPA"),
                         content: Text("Your GPA is: ${gpa.toStringAsFixed(2)}"),
                         actions: [
-                          TextButton(
-                            onPressed: () {
-                              Navigator.of(context).push(MaterialPageRoute(
-                                  builder: (context) => HomeScreen(
-                                      gpa: gpa, credits: totalCredits!)));
-                            },
-                            child: const Text("OK"),
-// so Abdella what we are going to do now is when we press ok this the above it must send the result to the home screen that we provided
-                          ),
+                          Row(
+                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                            children: [
+                              TextButton(
+                                onPressed: () => Navigator.pop(context),
+                                child: const Text("Edit"),
+                              ),
+                              TextButton(
+                                onPressed: () {
+                                  Navigator.of(context).push(MaterialPageRoute(
+                                    builder: (context) => HomeScreen(gpa: gpa, credits: totalCredits!)
+                                  ));
+                                },
+                                child: const Text("OK"),
+                              ),
+                            ],
+                          )
                         ],
                       );
                     },
@@ -260,13 +232,12 @@ class _GpaFormScreen extends State<GpaFormScreen> {
               child: Text(
                 'Calculate',
                 style: Theme.of(context).textTheme.titleLarge!.copyWith(
-                      color: Theme.of(context).colorScheme.onSecondary,
-                    ),
+                  color: Theme.of(context).colorScheme.onSecondary,
+                ),
               ),
               style: ButtonStyle(
-                minimumSize: WidgetStateProperty.all(Size(double.infinity, 50)),
-                backgroundColor: WidgetStateProperty.all(
-                    Theme.of(context).colorScheme.secondary),
+                minimumSize: MaterialStateProperty.all(Size(double.infinity, 50)),
+                backgroundColor: MaterialStateProperty.all(Theme.of(context).colorScheme.secondary),
               ),
             ),
           ),
