@@ -5,9 +5,16 @@ import 'package:url_launcher/url_launcher.dart';
 import 'dart:math';
 
 class HomeScreen extends StatefulWidget {
-  const HomeScreen({super.key, required this.gpa, required this.credits});
+  HomeScreen(
+      {super.key,
+      required this.gpa,
+      required this.credits,
+      required this.onDarkMode,
+      required this.isDarkMode});
   final double gpa;
   final double credits;
+  void Function() onDarkMode;
+  bool isDarkMode;
 
   @override
   State<HomeScreen> createState() => _HomeScreenState();
@@ -74,6 +81,15 @@ class _HomeScreenState extends State<HomeScreen>
       ));
     }
 
+    List<Color> cont = [
+      const Color.fromARGB(255, 33, 243, 198),
+      const Color.fromARGB(255, 7, 123, 98)
+    ];
+    List<Color> darcolor = [
+      const Color.fromARGB(255, 37, 40, 40),
+      const Color.fromARGB(96, 64, 60, 60)
+    ];
+
     void bottom_up() {
       showModalBottomSheet(
         context: context,
@@ -86,13 +102,11 @@ class _HomeScreenState extends State<HomeScreen>
                 child: Padding(
                   padding: const EdgeInsets.all(16.0),
                   child: Column(
-                    
                     crossAxisAlignment: CrossAxisAlignment.center,
                     children: [
                       Container(
                         width: 300,
                         alignment: Alignment.center,
-                        
                         child: TextField(
                           controller: _numberofCourseController,
                           keyboardType: TextInputType.number,
@@ -106,32 +120,32 @@ class _HomeScreenState extends State<HomeScreen>
                       Container(
                         height: 55,
                         width: double.infinity,
-                        padding:const EdgeInsets.all(8),
-                      decoration: const BoxDecoration(
-                    gradient: LinearGradient(
-                        begin: Alignment.topLeft,
-                        end: Alignment.bottomRight,
-                        colors: [
-                          const Color.fromARGB(255, 33, 243, 198),
-                          const Color.fromARGB(255, 7, 123, 98)
-                        ]),
-                    borderRadius: BorderRadius.all(Radius.circular(100)),
-                  ),
+                        padding: const EdgeInsets.all(8),
+                        decoration: BoxDecoration(
+                          gradient: LinearGradient(
+                              begin: Alignment.topLeft,
+                              end: Alignment.bottomRight,
+                              colors: widget.isDarkMode ? darcolor : cont),
+                          borderRadius: BorderRadius.all(Radius.circular(100)),
+                        ),
                         child: TextButton(
                           onPressed: () {
-                         
                             if (_numberofCourseController.text.isEmpty ||
-                                double.tryParse(_numberofCourseController.text) ==
+                                double.tryParse(
+                                        _numberofCourseController.text) ==
                                     null) {
                               showErrorDialog(
                                   "Please fill The Number of The Course.");
                             } else {
-                              _addFormScreen(); 
+                              _addFormScreen();
                             }
                           },
                           child: Text(
                             'Okay',
-                            style: Theme.of(context).textTheme.titleLarge!.copyWith(
+                            style: Theme.of(context)
+                                .textTheme
+                                .titleLarge!
+                                .copyWith(
                                   color: Theme.of(context)
                                       .colorScheme
                                       .onPrimaryContainer,
@@ -151,6 +165,8 @@ class _HomeScreenState extends State<HomeScreen>
 
     var creditHr = widget.credits;
     var gpa = widget.gpa;
+    var darkech = widget.isDarkMode;
+    final temp = cont;
 
     Widget? hold = Center(
       child: Column(
@@ -161,15 +177,12 @@ class _HomeScreenState extends State<HomeScreen>
             child: SingleChildScrollView(
               child: Container(
                 height: 350,
-                decoration: const BoxDecoration(
+                decoration: BoxDecoration(
                     borderRadius: BorderRadius.all(Radius.circular(8)),
                     gradient: LinearGradient(
                         begin: Alignment.topLeft,
                         end: Alignment.bottomRight,
-                        colors: [
-                          Color.fromARGB(255, 155, 245, 226),
-                          Color.fromARGB(255, 49, 227, 189)
-                        ])),
+                        colors: darkech ? darcolor : cont)),
                 child: Column(
                   children: [
                     const Text(
@@ -357,62 +370,70 @@ class _HomeScreenState extends State<HomeScreen>
     }
 
     return Scaffold(
-      appBar: AppBar(
-        backgroundColor: Theme.of(context).colorScheme.onTertiary,
-        title: Text(
-          "GPA Calculator App",
-          style: Theme.of(context).textTheme.titleLarge!.copyWith(
-                color: Theme.of(context).colorScheme.onTertiaryContainer,
-              ),
-        ),
-        actions: [
-          Padding(
-            padding: const EdgeInsets.all(13),
-            child: IconButton(
-              onPressed: () {},
-              icon: const Icon(Icons.sunny),
-            ),
+        appBar: AppBar(
+          backgroundColor: widget.isDarkMode
+              ? const Color.fromARGB(168, 42, 18, 53)
+              : Theme.of(context).colorScheme.onTertiary,
+          title: Text(
+            "GPA Calculator App",
+            style: widget.isDarkMode
+                ? TextStyle(color: Colors.white)
+                : Theme.of(context).textTheme.titleLarge!.copyWith(
+                      color: Theme.of(context).colorScheme.onTertiaryContainer,
+                    ),
           ),
-        ],
-      ),
-      drawer: Drawers(),
-      body: Container(
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-          children: [
-            Image.asset('lib/assets/OIP.jpg'),
-            Container(child: hold),
+          actions: [
             Padding(
-              padding: const EdgeInsets.all(8.0),
-              child: Container(
-                decoration: const BoxDecoration(
-                  gradient: LinearGradient(
-                      begin: Alignment.topLeft,
-                      end: Alignment.bottomRight,
-                      colors: [
-                        const Color.fromARGB(255, 33, 243, 198),
-                        const Color.fromARGB(255, 7, 123, 98)
-                      ]),
-                  borderRadius: BorderRadius.all(Radius.circular(100)),
-                ),
-                child: TextButton(
-                  onPressed: bottom_up,
-                  style: ButtonStyle(
-                    minimumSize:
-                        MaterialStateProperty.all(Size(double.infinity, 50)),
-                  ),
-                  child: Text(
-                    'Start',
-                    style: Theme.of(context).textTheme.titleLarge!.copyWith(
-                          color: Theme.of(context).colorScheme.onBackground,
-                        ),
-                  ),
-                ),
+              padding: const EdgeInsets.all(13),
+              child: IconButton(
+                onPressed: widget.onDarkMode, // Call the toggle method
+                icon: widget.isDarkMode
+                    ? const Icon(Icons.brightness_2)
+                    : const Icon(Icons.brightness_1),
               ),
             ),
           ],
         ),
-      ),
-    );
+        drawer: Drawers(), // Ensure you have a Drawers widget defined
+        body: SingleChildScrollView(
+          child: Container(
+            child: Column(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              children: [
+                Image.asset('lib/assets/OIP.jpg'),
+                Container(child: hold),
+                Padding(
+                  padding: const EdgeInsets.all(8.0),
+                  child: Container(
+                    decoration: const BoxDecoration(
+                      gradient: LinearGradient(
+                          begin: Alignment.topLeft,
+                          end: Alignment.bottomRight,
+                          colors: [
+                            const Color.fromARGB(255, 33, 243, 198),
+                            const Color.fromARGB(255, 7, 123, 98)
+                          ]),
+                      borderRadius: BorderRadius.all(Radius.circular(100)),
+                    ),
+                    child: TextButton(
+                      onPressed: bottom_up,
+                      style: ButtonStyle(
+                        minimumSize: MaterialStateProperty.all(
+                            Size(double.infinity, 50)),
+                      ),
+                      child: Text(
+                        'Start',
+                        style: Theme.of(context).textTheme.titleLarge!.copyWith(
+                              color: Theme.of(context).colorScheme.onBackground,
+                            ),
+                      ),
+                    ),
+                  ),
+                ),
+              ],
+            ),
+          ),
+        ) // Ensure you have a HomeScreen widget defined
+        );
   }
 }
