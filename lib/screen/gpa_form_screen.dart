@@ -213,6 +213,14 @@ class _GpaFormScreen extends State<GpaFormScreen> {
       });
     }
 
+    List<Color> cont = [
+      const Color.fromARGB(255, 33, 243, 198),
+      const Color.fromARGB(255, 7, 123, 98)
+    ];
+    List<Color> darcolor = [
+      const Color.fromARGB(255, 5, 32, 40),
+      const Color.fromARGB(30, 5, 36, 68)
+    ];
     return Scaffold(
       appBar: AppBar(
         title: const Text("Fill out all the spaces"),
@@ -222,63 +230,78 @@ class _GpaFormScreen extends State<GpaFormScreen> {
           ...containers,
           Padding(
             padding: const EdgeInsetsDirectional.only(bottom: 8),
-            child: ElevatedButton(
-              onPressed: () {
-                Map<String, double?> result = calculateGPA();
-                double? gpa = result['gpa'];
-                double? totalCredits = result['totalCredits'];
-                if (gpa == null) {
-                  showErrorDialog(
-                      "Please fill in all fields correctly before calculating.");
-                } else {
-                  showDialog(
-                    context: context,
-                    builder: (context) {
-                      return AlertDialog(
-                        title: const Text("Calculated GPA"),
-                        content: Text("Your GPA is: ${gpa.toStringAsFixed(2)}"),
-                        actions: [
-                          Row(
-                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                            children: [
-                              TextButton(
-                                onPressed: () => Navigator.pop(context),
-                                child: const Text("Edit"),
-                              ),
-                              TextButton(
-                                onPressed: () {
-                                  Navigator.of(context).push(
-                                    MaterialPageRoute(
-                                      builder: (context) => HomeScreen(
-                                        gpa: gpa,
-                                        credits: totalCredits!,
-                                        isDarkMode: true,
-                                        onDarkMode: onDarkMode,
-                                      ),
-                                    ),
-                                  );
-                                },
-                                child: const Text("OK"),
-                              ),
+            child: Padding(
+              padding: const EdgeInsets.all(14),
+              child: Container(
+                width: double.infinity,
+                decoration: BoxDecoration(
+                    gradient: LinearGradient(
+                        colors: _isDarkMode
+                            ? [
+                                const Color.fromARGB(255, 5, 32, 40),
+                                const Color.fromARGB(30, 5, 36, 68)
+                              ]
+                            : [
+                                const Color.fromARGB(255, 33, 243, 198),
+                                const Color.fromARGB(255, 7, 123, 98)
+                              ]),
+                    borderRadius: BorderRadius.circular(8)),
+                child: TextButton(
+                  onPressed: () {
+                    Map<String, double?> result = calculateGPA();
+                    double? gpa = result['gpa'];
+                    double? totalCredits = result['totalCredits'];
+                    if (gpa == null) {
+                      showErrorDialog(
+                          "Please fill in all fields correctly before calculating.");
+                    } else {
+                      showDialog(
+                        context: context,
+                        builder: (context) {
+                          return AlertDialog(
+                            title: const Text("Calculated GPA"),
+                            content:
+                                Text("Your GPA is: ${gpa.toStringAsFixed(2)}"),
+                            actions: [
+                              Row(
+                                mainAxisAlignment:
+                                    MainAxisAlignment.spaceBetween,
+                                children: [
+                                  TextButton(
+                                    onPressed: () => Navigator.pop(context),
+                                    child: const Text("Edit"),
+                                  ),
+                                  TextButton(
+                                    onPressed: () {
+                                      Navigator.of(context).push(
+                                        MaterialPageRoute(
+                                          builder: (context) => HomeScreen(
+                                            gpa: gpa,
+                                            credits: totalCredits!,
+                                            isDarkMode: true,
+                                            onDarkMode: onDarkMode,
+                                          ),
+                                        ),
+                                      );
+                                    },
+                                    child: const Text("OK"),
+                                  ),
+                                ],
+                              )
                             ],
-                          )
-                        ],
+                          );
+                        },
                       );
-                    },
-                  );
-                }
-              },
-              child: Text(
-                'Calculate',
-                style: Theme.of(context).textTheme.titleLarge!.copyWith(
-                      color: Theme.of(context).colorScheme.onSecondary,
-                    ),
-              ),
-              style: ButtonStyle(
-                minimumSize:
-                    MaterialStateProperty.all(Size(double.infinity, 50)),
-                backgroundColor: MaterialStateProperty.all(
-                    Theme.of(context).colorScheme.secondary),
+                    }
+                  },
+                  child: Text(
+                    'Calculate',
+                    style: Theme.of(context).textTheme.titleLarge!.copyWith(
+                          color:
+                              Theme.of(context).colorScheme.onPrimaryContainer,
+                        ),
+                  ),
+                ),
               ),
             ),
           ),
