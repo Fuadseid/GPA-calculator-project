@@ -76,8 +76,10 @@ class _HomeScreenState extends State<HomeScreen>
     void _addFormScreen() {
       Navigator.pop(context);
       Navigator.of(context).push(MaterialPageRoute(
-        builder: (context) =>
-            GpaFormScreen(enterednumber: _numberofCourseController),
+        builder: (context) => GpaFormScreen(
+          enterednumber: _numberofCourseController,
+          onDarkMode: widget.onDarkMode,
+        ),
       ));
     }
 
@@ -369,27 +371,33 @@ class _HomeScreenState extends State<HomeScreen>
       hold = content1;
     }
 
+    Color? tempcolor;
+    @override
+    void initState() {
+      super.initState();
+      setState(() {
+        tempcolor = widget.isDarkMode
+            ? const Color.fromARGB(104, 147, 255, 128)
+            : Colors.white;
+      });
+      // Initialize your variables here
+    }
+
     return Scaffold(
         appBar: AppBar(
-          backgroundColor: widget.isDarkMode
-              ? const Color.fromARGB(168, 42, 18, 53)
-              : Theme.of(context).colorScheme.onTertiary,
-          title: Text(
-            "GPA Calculator App",
-            style: widget.isDarkMode
-                ? TextStyle(color: Colors.white)
-                : Theme.of(context).textTheme.titleLarge!.copyWith(
-                      color: Theme.of(context).colorScheme.onTertiaryContainer,
-                    ),
-          ),
+          backgroundColor: tempcolor,
+          title: Text("GPA Calculator App",
+              style: widget.isDarkMode
+                  ? const TextStyle(color: Colors.red)
+                  : const TextStyle(color: Colors.red)),
           actions: [
             Padding(
               padding: const EdgeInsets.all(13),
               child: IconButton(
                 onPressed: widget.onDarkMode, // Call the toggle method
                 icon: widget.isDarkMode
-                    ? const Icon(Icons.brightness_2)
-                    : const Icon(Icons.brightness_1),
+                    ? const Icon(Icons.sunny)
+                    : const Icon(Icons.brightness_2),
               ),
             ),
           ],

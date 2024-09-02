@@ -33,8 +33,10 @@ class Grade {
 }
 
 class GpaFormScreen extends StatefulWidget {
-  GpaFormScreen({super.key, required this.enterednumber});
+  GpaFormScreen(
+      {super.key, required this.enterednumber, required this.onDarkMode});
   final TextEditingController enterednumber;
+  void Function() onDarkMode;
 
   @override
   State<GpaFormScreen> createState() => _GpaFormScreen();
@@ -204,14 +206,7 @@ class _GpaFormScreen extends State<GpaFormScreen> {
       );
     }).toList();
 
-    bool _isDarkMode = false;
-
     // Method to toggle dark mode
-    void onDarkMode() {
-      setState(() {
-        _isDarkMode = !_isDarkMode; // Toggle the value
-      });
-    }
 
     return Scaffold(
       appBar: AppBar(
@@ -253,7 +248,7 @@ class _GpaFormScreen extends State<GpaFormScreen> {
                                         gpa: gpa,
                                         credits: totalCredits!,
                                         isDarkMode: true,
-                                        onDarkMode: onDarkMode,
+                                        onDarkMode: widget.onDarkMode,
                                       ),
                                     ),
                                   );

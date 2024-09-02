@@ -5,12 +5,10 @@ import 'package:gpa_calculator/widget/drawer.dart';
 
 final colorScheme = ColorScheme.fromSeed(
   brightness: Brightness.dark,
-  seedColor: const Color.fromARGB(255, 102, 6, 247),
-  background: const Color.fromARGB(255, 56, 49, 66),
+  seedColor: const Color.fromARGB(255, 255, 255, 255),
 );
 
 final theme = ThemeData().copyWith(
-  scaffoldBackgroundColor: colorScheme.onSurface,
   colorScheme: colorScheme,
   textTheme: GoogleFonts.ubuntuCondensedTextTheme().copyWith(
     titleSmall: GoogleFonts.ubuntuCondensed(
@@ -47,25 +45,26 @@ class _MyAppState extends State<MyApp> {
 
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(
-      theme: ThemeData(
-        brightness: Brightness.light,
-        primaryColor: Colors.blue,
-        textTheme: const TextTheme(),
-      ),
-      darkTheme: ThemeData(
-        brightness: Brightness.dark,
-        primaryColor: const Color.fromARGB(255, 12, 12, 13),
-        textTheme: const TextTheme(),
-      ),
-      themeMode: _isDarkMode ? ThemeMode.dark : ThemeMode.light,
-      debugShowCheckedModeBanner: false,
-      title: 'Flutter Demo',
-      home: HomeScreen(
-        gpa: 0,
-        credits: 0,
-        onDarkMode: onDarkMode,
-        isDarkMode: _isDarkMode,
+    return SafeArea(
+      child: MaterialApp(
+        theme: ThemeData(
+          primaryColor: const Color.fromARGB(255, 255, 255, 255),
+          textTheme: const TextTheme(),
+        ),
+        darkTheme: ThemeData(
+          brightness: Brightness.dark,
+          primaryColor: const Color.fromARGB(255, 12, 12, 13),
+          textTheme: const TextTheme(),
+        ),
+        themeMode: _isDarkMode ? ThemeMode.dark : ThemeMode.light,
+        debugShowCheckedModeBanner: false,
+        title: 'Flutter Demo',
+        home: HomeScreen(
+          gpa: 0,
+          credits: 0,
+          onDarkMode: onDarkMode,
+          isDarkMode: _isDarkMode,
+        ),
       ),
     );
   }
