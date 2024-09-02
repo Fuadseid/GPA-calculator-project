@@ -225,46 +225,60 @@ class _GpaFormScreen extends State<GpaFormScreen> {
           ...containers,
           Padding(
             padding: const EdgeInsetsDirectional.only(bottom: 8),
-
-            child: ElevatedButton(
-              onPressed: () {
-                Map<String, double?> result = calculateGPA();
-                double? gpa = result['gpa'];
-                double? totalCredits = result['totalCredits'];
-                if (gpa == null) {
-                  showErrorDialog(
-                      "Please fill in all fields correctly before calculating.");
-                } else {
-                  showDialog(
-                    context: context,
-                    builder: (context) {
-                      return AlertDialog(
-                        title: const Text("Calculated GPA"),
-                        content: Text("Your GPA is: ${gpa.toStringAsFixed(2)}"),
-                        actions: [
-                          Row(
-                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                            children: [
-                              TextButton(
-                                onPressed: () => Navigator.pop(context),
-                                child: const Text("Edit"),
-                              ),
-                              TextButton(
-                                onPressed: () {
-                                  Navigator.of(context).push(
-                                    MaterialPageRoute(
-                                      builder: (context) => HomeScreen(
-                                        gpa: gpa,
-                                        credits: totalCredits!,
-                                        isDarkMode: true,
-                                        onDarkMode: widget.onDarkMode,
-                                      ),
+            child: Padding(
+              padding: const EdgeInsets.all(8.0),
+              child: Container(
+                height: 55,
+                width: double.infinity,
+                padding: const EdgeInsets.all(8),
+                decoration: BoxDecoration(
+                  gradient: LinearGradient(
+                      begin: Alignment.topLeft,
+                      end: Alignment.bottomRight,
+                      colors: cont),
+                  borderRadius: BorderRadius.all(Radius.circular(100)),
+                ),
+                child: TextButton(
+                  onPressed: () {
+                    Map<String, double?> result = calculateGPA();
+                    double? gpa = result['gpa'];
+                    double? totalCredits = result['totalCredits'];
+                    if (gpa == null) {
+                      showErrorDialog(
+                          "Please fill in all fields correctly before calculating.");
+                    } else {
+                      showDialog(
+                        context: context,
+                        builder: (context) {
+                          return AlertDialog(
+                            title: const Text("Calculated GPA"),
+                            content:
+                                Text("Your GPA is: ${gpa.toStringAsFixed(2)}"),
+                            actions: [
+                              Row(
+                                  mainAxisAlignment:
+                                      MainAxisAlignment.spaceBetween,
+                                  children: [
+                                    TextButton(
+                                      onPressed: () => Navigator.pop(context),
+                                      child: const Text("Edit"),
                                     ),
-                                  );
-                                },
-                                child: const Text("OK"),
-                              ),
-
+                                    TextButton(
+                                      onPressed: () {
+                                        Navigator.of(context).push(
+                                          MaterialPageRoute(
+                                            builder: (context) => HomeScreen(
+                                              gpa: gpa,
+                                              credits: totalCredits!,
+                                              isDarkMode: true,
+                                              onDarkMode: widget.onDarkMode,
+                                            ),
+                                          ),
+                                        );
+                                      },
+                                      child: const Text("OK"),
+                                    ),
+                                  ]),
                             ],
                           );
                         },
@@ -274,8 +288,7 @@ class _GpaFormScreen extends State<GpaFormScreen> {
                   child: Text(
                     'Calculate',
                     style: Theme.of(context).textTheme.titleLarge!.copyWith(
-                          color:
-                              Theme.of(context).colorScheme.onPrimaryContainer,
+                          color: Theme.of(context).colorScheme.onPrimaryContainer,
                         ),
                   ),
                 ),

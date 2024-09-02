@@ -127,7 +127,7 @@ class _HomeScreenState extends State<HomeScreen>
                           gradient: LinearGradient(
                               begin: Alignment.topLeft,
                               end: Alignment.bottomRight,
-                              colors: widget.isDarkMode ? darcolor : cont),
+                              colors: cont),
                           borderRadius: BorderRadius.all(Radius.circular(100)),
                         ),
                         child: TextButton(
@@ -395,10 +395,8 @@ class _HomeScreenState extends State<HomeScreen>
               child: IconButton(
                 onPressed: widget.onDarkMode, // Call the toggle method
                 icon: widget.isDarkMode
-
                     ? const Icon(Icons.sunny)
                     : const Icon(Icons.brightness_2),
-
               ),
             ),
           ],
@@ -414,12 +412,13 @@ class _HomeScreenState extends State<HomeScreen>
                 Padding(
                   padding: const EdgeInsets.all(8.0),
                   child: Container(
-                    decoration:  BoxDecoration(
+                    decoration: BoxDecoration(
                       gradient: LinearGradient(
                           begin: Alignment.topLeft,
                           end: Alignment.bottomRight,
-                          colors: widget.isDarkMode ? darcolor : cont),
-                      borderRadius:const BorderRadius.all(Radius.circular(100)),
+                          colors: cont),
+                      borderRadius:
+                          const BorderRadius.all(Radius.circular(100)),
                     ),
                     child: TextButton(
                       onPressed: bottom_up,
