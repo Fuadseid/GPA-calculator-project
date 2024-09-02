@@ -88,8 +88,8 @@ class _HomeScreenState extends State<HomeScreen>
       const Color.fromARGB(255, 7, 123, 98)
     ];
     List<Color> darcolor = [
-      const Color.fromARGB(255, 37, 40, 40),
-      const Color.fromARGB(96, 64, 60, 60)
+      const Color.fromARGB(255, 5, 32, 40),
+      const Color.fromARGB(30, 5, 36, 68)
     ];
 
     void bottom_up() {
@@ -210,7 +210,6 @@ class _HomeScreenState extends State<HomeScreen>
                           ' For More Click ⬇️\n Debre Berhan University',
                           style: TextStyle(
                             fontSize: 20,
-                            color: Color.fromARGB(255, 12, 27, 40),
                           ),
                         ),
                       ),
@@ -396,8 +395,10 @@ class _HomeScreenState extends State<HomeScreen>
               child: IconButton(
                 onPressed: widget.onDarkMode, // Call the toggle method
                 icon: widget.isDarkMode
+
                     ? const Icon(Icons.sunny)
                     : const Icon(Icons.brightness_2),
+
               ),
             ),
           ],
@@ -413,15 +414,12 @@ class _HomeScreenState extends State<HomeScreen>
                 Padding(
                   padding: const EdgeInsets.all(8.0),
                   child: Container(
-                    decoration: const BoxDecoration(
+                    decoration:  BoxDecoration(
                       gradient: LinearGradient(
                           begin: Alignment.topLeft,
                           end: Alignment.bottomRight,
-                          colors: [
-                            const Color.fromARGB(255, 33, 243, 198),
-                            const Color.fromARGB(255, 7, 123, 98)
-                          ]),
-                      borderRadius: BorderRadius.all(Radius.circular(100)),
+                          colors: widget.isDarkMode ? darcolor : cont),
+                      borderRadius:const BorderRadius.all(Radius.circular(100)),
                     ),
                     child: TextButton(
                       onPressed: bottom_up,
