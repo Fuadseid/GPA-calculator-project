@@ -127,7 +127,7 @@ class _HomeScreenState extends State<HomeScreen>
                           gradient: LinearGradient(
                               begin: Alignment.topLeft,
                               end: Alignment.bottomRight,
-                              colors: widget.isDarkMode ? darcolor : cont),
+                              colors:  cont),
                           borderRadius: BorderRadius.all(Radius.circular(100)),
                         ),
                         child: TextButton(
@@ -418,7 +418,7 @@ class _HomeScreenState extends State<HomeScreen>
                       gradient: LinearGradient(
                           begin: Alignment.topLeft,
                           end: Alignment.bottomRight,
-                          colors: widget.isDarkMode ? darcolor : cont),
+                          colors:  cont),
                       borderRadius:const BorderRadius.all(Radius.circular(100)),
                     ),
                     child: TextButton(
