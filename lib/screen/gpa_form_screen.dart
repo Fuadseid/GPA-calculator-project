@@ -33,8 +33,10 @@ class Grade {
 }
 
 class GpaFormScreen extends StatefulWidget {
-  GpaFormScreen({super.key, required this.enterednumber});
+  GpaFormScreen(
+      {super.key, required this.enterednumber, required this.onDarkMode});
   final TextEditingController enterednumber;
+  void Function() onDarkMode;
 
   @override
   State<GpaFormScreen> createState() => _GpaFormScreen();
@@ -204,14 +206,7 @@ class _GpaFormScreen extends State<GpaFormScreen> {
       );
     }).toList();
 
-    bool _isDarkMode = false;
-
     // Method to toggle dark mode
-    void onDarkMode() {
-      setState(() {
-        _isDarkMode = !_isDarkMode; // Toggle the value
-      });
-    }
 
     List<Color> cont = [
       const Color.fromARGB(255, 33, 243, 198),
@@ -230,64 +225,46 @@ class _GpaFormScreen extends State<GpaFormScreen> {
           ...containers,
           Padding(
             padding: const EdgeInsetsDirectional.only(bottom: 8),
-            child: Padding(
-              padding: const EdgeInsets.all(14),
-              child: Container(
-                width: double.infinity,
-                decoration: BoxDecoration(
-                    gradient: LinearGradient(
-                        colors: _isDarkMode
-                            ? [
-                                const Color.fromARGB(255, 5, 32, 40),
-                                const Color.fromARGB(30, 5, 36, 68)
-                              ]
-                            : [
-                                const Color.fromARGB(255, 33, 243, 198),
-                                const Color.fromARGB(255, 7, 123, 98)
-                              ]),
-                    borderRadius: BorderRadius.circular(8)),
-                child: TextButton(
-                  onPressed: () {
-                    Map<String, double?> result = calculateGPA();
-                    double? gpa = result['gpa'];
-                    double? totalCredits = result['totalCredits'];
-                    if (gpa == null) {
-                      showErrorDialog(
-                          "Please fill in all fields correctly before calculating.");
-                    } else {
-                      showDialog(
-                        context: context,
-                        builder: (context) {
-                          return AlertDialog(
-                            title: const Text("Calculated GPA"),
-                            content:
-                                Text("Your GPA is: ${gpa.toStringAsFixed(2)}"),
-                            actions: [
-                              Row(
-                                mainAxisAlignment:
-                                    MainAxisAlignment.spaceBetween,
-                                children: [
-                                  TextButton(
-                                    onPressed: () => Navigator.pop(context),
-                                    child: const Text("Edit"),
-                                  ),
-                                  TextButton(
-                                    onPressed: () {
-                                      Navigator.of(context).push(
-                                        MaterialPageRoute(
-                                          builder: (context) => HomeScreen(
-                                            gpa: gpa,
-                                            credits: totalCredits!,
-                                            isDarkMode: true,
-                                            onDarkMode: onDarkMode,
-                                          ),
-                                        ),
-                                      );
-                                    },
-                                    child: const Text("OK"),
-                                  ),
-                                ],
-                              )
+
+            child: ElevatedButton(
+              onPressed: () {
+                Map<String, double?> result = calculateGPA();
+                double? gpa = result['gpa'];
+                double? totalCredits = result['totalCredits'];
+                if (gpa == null) {
+                  showErrorDialog(
+                      "Please fill in all fields correctly before calculating.");
+                } else {
+                  showDialog(
+                    context: context,
+                    builder: (context) {
+                      return AlertDialog(
+                        title: const Text("Calculated GPA"),
+                        content: Text("Your GPA is: ${gpa.toStringAsFixed(2)}"),
+                        actions: [
+                          Row(
+                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                            children: [
+                              TextButton(
+                                onPressed: () => Navigator.pop(context),
+                                child: const Text("Edit"),
+                              ),
+                              TextButton(
+                                onPressed: () {
+                                  Navigator.of(context).push(
+                                    MaterialPageRoute(
+                                      builder: (context) => HomeScreen(
+                                        gpa: gpa,
+                                        credits: totalCredits!,
+                                        isDarkMode: true,
+                                        onDarkMode: widget.onDarkMode,
+                                      ),
+                                    ),
+                                  );
+                                },
+                                child: const Text("OK"),
+                              ),
+
                             ],
                           );
                         },

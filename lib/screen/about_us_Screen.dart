@@ -4,7 +4,7 @@ import 'package:gpa_calculator/screen/about_us_detail.dart';
 class AboutUsScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
-    const title1 = 'Abdellah Nesredin';
+    const title1 = 'Abdelah Nesredin';
     const title2 = 'Fuad Seid';
     Widget photo1 = Image.asset(
       'lib/assets/Abdellah.jpg',

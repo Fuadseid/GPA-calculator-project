@@ -9,12 +9,12 @@ class Drawers extends StatelessWidget {
         padding: EdgeInsets.zero,
         children: <Widget>[
           DrawerHeader(
-            decoration: BoxDecoration(
-              color: const Color.fromARGB(255, 103, 202, 118),
+            decoration: const BoxDecoration(
+              color: Color.fromARGB(255, 103, 202, 118),
             ),
             child: Column(
               children: [
-                Text(
+                const Text(
                   'Menu',
                   style: TextStyle(
                     color: Colors.white,
@@ -30,8 +30,8 @@ class Drawers extends StatelessWidget {
             ),
           ),
           ListTile(
-            leading: Icon(Icons.man),
-            title: Text('About Us'),
+            leading: const Icon(Icons.man),
+            title: const Text('About Us'),
             onTap: () {
               Navigator.push(
                 context,
